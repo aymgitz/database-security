@@ -52,7 +52,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 if($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     
-                    if($row['status'] == 'approved' ){
+                    if($row['status'] == 'approved'&& $row['role'] != 'admin'){
                         // Check password
                         $stored_hashed_password = $row['password'];
                         if(password_verify($password, $stored_hashed_password)){
@@ -61,6 +61,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             pathTo('home');
                         } else {
                             $input_error = "*Invalid password!";
+                        }
+                    }
+                    elseif($row['role']=='admin'&&$row['status']=='approved'){
+                        $stored_hashed_password = $row['password'];
+                        if(password_verify($password, $stored_hashed_password)){
+                        $_SESSION['status'] = 'admin_valid';
+                        pathTo('admin_db');
+                        }
+                        else{
+                            $input_error = "mali an password";
                         }
                     }
                     elseif ($row['status'] == 'pending') {
