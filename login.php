@@ -15,7 +15,7 @@ function retouch_input($data){
 }
 
 // Check for login or registration actions
-if($_SESSION['status']=='balik_registration' || empty($_SESSION['status'])){
+if($_SESSION['status']=='balik_registration' || empty($_SESSION['status'])||$_SESSION['status']=='valid'){
     $_SESSION['status']='invalid';
 }
 elseif ($_SESSION['status'] == 'valid') {
@@ -58,7 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         if(password_verify($password, $stored_hashed_password)){
                             echo "<script>alert('Login successful!')</script>";
                             $_SESSION['status'] = 'valid';
-                            pathTo('home');
+                            pathTo('teacher_db');
                         } else {
                             $input_error = "*Invalid password!";
                         }
@@ -66,10 +66,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     elseif($row['status'] == 'approved'&& $row['role'] == 'student'){
                         // Check password
                         $stored_hashed_password = $row['password'];
+                        $retainEmail = $email;
                         if(password_verify($password, $stored_hashed_password)){
-                            echo "<script>alert('Login successful!')</script>";
-                            $_SESSION['status'] = 'valid';
-                            pathTo('student_db');
+                            $queryAccounts_id = "select pi.accounts_id from personal_info pi
+                            join accounts ac on pi.accounts_id = ac.id where ac.email = '$retainEmail' ";
+                            $resultAccounts_id = $connection->query($queryAccounts_id);
+                            if($resultAccounts_id->num_rows > 0) {
+                                echo "<script>alert('Login successful!')</script>";
+                                $_SESSION['status'] = 'valid';
+                                pathTo('student_db');
+                            }
+                            else{
+                                $_SESSION['logId']= $retainEmail;
+                                echo "<script>alert('Please complete your information')</script>";
+                                $_SESSION['status'] = 'valid';
+                                pathTo('registration_information');
+                            }
+                            
+
                         } else {
                             $input_error = "*Invalid password!";
                         }

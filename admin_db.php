@@ -2,6 +2,7 @@
 require('./database.php');
 session_start();
 
+
 // Initialize session status if not set
 if (!isset($_SESSION['status'])) {
     $_SESSION['status'] = 'invalid'; // Default to 'invalid'
@@ -17,7 +18,7 @@ if ($_SESSION['status'] == 'invalid' || empty($_SESSION['status'])) {
 } elseif ($_SESSION['status'] == 'balik_registration') {
     pathTo('registration');
 } elseif ($_SESSION['status'] == 'valid') {
-    pathTo('home');
+    pathTo('login');
 } elseif ($_SESSION['status'] == 'admin_valid') {
     // Admin access logic
 }
