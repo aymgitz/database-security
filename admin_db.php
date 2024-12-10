@@ -60,7 +60,8 @@ if ($stmt = mysqli_prepare($connection, $query)) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     mysqli_stmt_close($stmt);
-} else {
+} 
+else {
     // Handle query error
     echo "Error fetching accounts: " . mysqli_error($connection);
 }
@@ -153,23 +154,53 @@ if ($stmt = mysqli_prepare($connection, $query)) {
                 <?php
                 // Display accounts based on status
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['role']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['status']) . "</td>";
-                    echo "<td>
-                            <form method='POST' action=''>
-                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                <input type='hidden' name='action' value='approve'>
-                                <button type='submit' class='button'>Approve</button>
-                            </form>
-                            <form method='POST' action=''>
-                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                <input type='hidden' name='action' value='reject'>
-                                <button type='submit' class='button reject'>Reject</button>
-                            </form>
-                          </td>";
-                    echo "</tr>";
+                    if($row['status']!='approved'&&$row['status']!='rejected'){
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['role']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                        echo "<td>
+                                <form method='POST' action=''>
+                                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                    <input type='hidden' name='action' value='approve'>
+                                    <button type='submit' class='button'>Approve</button>
+                                </form>
+                                <form method='POST' action=''>
+                                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                    <input type='hidden' name='action' value='reject'>
+                                    <button type='submit' class='button reject'>Reject</button>
+                                </form>
+                            </td>";
+                        echo "</tr>";
+                    }
+                    elseif($row['status']=='rejected'){
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['role']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                        echo "<td>
+                                <form method='POST' action=''>
+                                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                    <input type='hidden' name='action' value='approve'>
+                                    <button type='submit' class='button'>Approve</button>
+                                </form>                               
+                            </td>";
+                        echo "</tr>";
+                    }
+                    else{
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['role']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                        echo "<td>                              
+                                <form method='POST' action=''>
+                                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                    <input type='hidden' name='action' value='reject'>
+                                    <button type='submit' class='button reject'>Reject</button>
+                                </form>
+                              </td>";
+                        echo "</tr>";
+                    }
                 }
                 ?>
             </tbody>

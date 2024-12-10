@@ -52,13 +52,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 if($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                     
-                    if($row['status'] == 'approved'&& $row['role'] != 'admin'){
+                    if($row['status'] == 'approved'&& $row['role'] == 'teacher'){
                         // Check password
                         $stored_hashed_password = $row['password'];
                         if(password_verify($password, $stored_hashed_password)){
                             echo "<script>alert('Login successful!')</script>";
                             $_SESSION['status'] = 'valid';
                             pathTo('home');
+                        } else {
+                            $input_error = "*Invalid password!";
+                        }
+                    }
+                    elseif($row['status'] == 'approved'&& $row['role'] == 'student'){
+                        // Check password
+                        $stored_hashed_password = $row['password'];
+                        if(password_verify($password, $stored_hashed_password)){
+                            echo "<script>alert('Login successful!')</script>";
+                            $_SESSION['status'] = 'valid';
+                            pathTo('student_db');
                         } else {
                             $input_error = "*Invalid password!";
                         }
