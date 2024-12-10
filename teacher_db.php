@@ -13,6 +13,8 @@ require('./session.php');
 <body>
     <h1>TEACHER'S PORTAL</h1>
 
+    <h2>TO BE CONTINUED</h2>
+
     <form action="/rd-folder2/logout.php" method="post">
         <input type="submit" name="logout" value="LOGOUT" />
     </form>

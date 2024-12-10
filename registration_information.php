@@ -1,10 +1,11 @@
 <?php 
 require('./database.php');
-session_start();
+require('./session.php');
+/*session_start();
 
 function pathTo($destination) {
     echo "<script>window.location.href = '/rd-folder2/$destination.php'</script>";
-}
+}*/
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 if(isset($_POST['submitz'])){
