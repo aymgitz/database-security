@@ -38,19 +38,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // If email does not exist, proceed to insert the new user
                 $queryInsert = "INSERT INTO accounts (email, password,role) VALUES (?, ?, ?)";
                 $stmtInsert = mysqli_prepare($connection, $queryInsert);
-                mysqli_stmt_bind_param($stmtInsert, 'sss', $email, $hashed_password, $role );  // 'sss' means insurance jk (string parameters) talaga
+                mysqli_stmt_bind_param($stmtInsert, 'sss', $email, $hashed_password, $role );  // 'sss' means insurance (string parameters)
                 $insertSuccess = mysqli_stmt_execute($stmtInsert);
 
                 // Registration successful
                 if ($insertSuccess) {
                     echo "<script>alert('Registration successful! Please login.')</script>";
-                    
                     pathTo('login');
                 } 
                 else {
                     // Insertion failed
                     $input_error = "*There was an error during registration. Please try again later.";
-                    
                 }
             }
         }

@@ -1,5 +1,5 @@
 <?php
-require('./session.php');
+require('./student_session.php');
 ?>
 
 <!DOCTYPE html>

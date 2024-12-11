@@ -2,12 +2,6 @@
 require('./database.php');
 session_start();
 
-
-// Initialize session status if not set
-if (!isset($_SESSION['status'])) {
-    $_SESSION['status'] = 'invalid'; // Default to 'invalid'
-}
-
 function pathTo($destination) {
     echo "<script>window.location.href = '/rd-folder2/$destination.php'</script>";
 }
@@ -17,10 +11,10 @@ if ($_SESSION['status'] == 'invalid' || empty($_SESSION['status'])) {
     pathTo('login');
 } elseif ($_SESSION['status'] == 'balik_registration') {
     pathTo('registration');
-} elseif ($_SESSION['status'] == 'valid') {
-    pathTo('login');
-} elseif ($_SESSION['status'] == 'admin_valid') {
-    // Admin access logic
+} elseif ($_SESSION['status'] == 'student_valid') {
+    pathTo('student_db');
+} elseif ($_SESSION['status'] == 'teacher_valid') {
+    pathTo('teacher_db');
 }
 
 $filterStatus = isset($_GET['status']) ? $_GET['status'] : 'pending'; // Default to 'pending'
@@ -37,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && isset($_P
 
     if ($action == 'approve') {
         $updateStatusQuery = "UPDATE accounts SET status = 'approved' WHERE id = ?";
-    } elseif ($action == 'reject') {
+    }
+    elseif ($action == 'reject') {
         $updateStatusQuery = "UPDATE accounts SET status = 'rejected' WHERE id = ?";
     }
 

@@ -14,16 +14,12 @@ function retouch_input($data){
     return $data;
 }
 
-// Check for login or registration actions
-if($_SESSION['status']=='balik_registration' || empty($_SESSION['status'])||$_SESSION['status']=='valid'){
+// Updated
+if($_SESSION['status']=='invalid' || empty($_SESSION['status'])||$_SESSION['status']=='admin_valid'
+  || $_SESSION['status']='student_valid' || $_SESSION['status']='teacher_valid'||
+   $_SESSION['status']='valid'|| $_SESSION['status']='balik_registration'
+){
     $_SESSION['status']='invalid';
-}
-elseif ($_SESSION['status'] == 'valid') {
-    pathTo('home');
-}
-elseif($_SESSION['status']=='admin_valid'){
-    $_SESSION['status']='invalid';
-    pathTo('login');
 }
 
 // Define error variable
@@ -34,7 +30,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $email = retouch_input($_POST['email']);
         $password = trim($_POST['passwordz']);
         
-        ////////////////////////
         if($email == "admin@gmail.comz" && $password == "admin"){
             $_SESSION['status'] = 'admin_valid';
             pathTo('admin_db');
@@ -57,7 +52,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         $stored_hashed_password = $row['password'];
                         if(password_verify($password, $stored_hashed_password)){
                             echo "<script>alert('Login successful!')</script>";
-                            $_SESSION['status'] = 'valid';
+                            $_SESSION['status'] = 'teacher_valid';
                             pathTo('teacher_db');
                         } else {
                             $input_error = "*Invalid password!";
@@ -73,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             $resultAccounts_id = $connection->query($queryAccounts_id);
                             if($resultAccounts_id->num_rows > 0) {
                                 echo "<script>alert('Login successful!')</script>";
-                                $_SESSION['status'] = 'valid';
+                                $_SESSION['status'] = 'student_valid';
                                 pathTo('student_db');
                             }
                             else{

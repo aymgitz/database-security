@@ -1,47 +1,43 @@
 <?php 
 require('./database.php');
-require('./session.php');
-/*session_start();
+require('./registration_info_session.php');
 
-function pathTo($destination) {
-    echo "<script>window.location.href = '/rd-folder2/$destination.php'</script>";
-}*/
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-if(isset($_POST['submitz'])){
-    $retainEmail = $_SESSION['logId'];
+    if(isset($_POST['submitz'])){
+        $retainEmail = $_SESSION['logId'];
 
-    $firstname = $_POST['firstname'];
-    $middlename = $_POST['middlename'];
-    $lastname = $_POST['lastname'];
-    $birthdate = $_POST['birthdate'];
-    $address = $_POST['address'];
-    $gender = $_POST['gender'];
-   
-    $queryValidate = "select id from accounts where email = '$retainEmail' ";
-    $resultValidate = $connection->query($queryValidate);
-    $row = $resultValidate-> fetch_assoc();
-    $logId = $row['id'];
+        $firstname = $_POST['firstname'];
+        $middlename = $_POST['middlename'];
+        $lastname = $_POST['lastname'];
+        $birthdate = $_POST['birthdate'];
+        $address = $_POST['address'];
+        $gender = $_POST['gender'];
+    
+        $queryValidate = "select id from accounts where email = '$retainEmail' ";
+        $resultValidate = $connection->query($queryValidate);
+        $row = $resultValidate-> fetch_assoc();
+        $logId = $row['id'];
 
-    $queryInsert = "insert into personal_info(accounts_id,firstname,middlename,lastname,birthdate,address,gender)
-                    values($logId, '$firstname', '$middlename', '$lastname', '$birthdate', '$address', '$gender') ";
-    $resultInsert = $connection->query($queryInsert);
+        $queryInsert = "insert into personal_info(accounts_id,firstname,middlename,lastname,birthdate,address,gender)
+                        values($logId, '$firstname', '$middlename', '$lastname', '$birthdate', '$address', '$gender') ";
+        $resultInsert = $connection->query($queryInsert);
 
-    if($resultInsert){
-        echo"<script>alert('Updated successfully')</script>";
+        if($resultInsert){
+            echo"<script>alert('Updated successfully')</script>";
+            unset($_SESSION['logId']);
+            pathTo('student_db');
+            
+        }
+        else{
+            echo"<script>alert('There's a problem in inserting data')</script>";
+        }
+    }
+    elseif(isset($_POST['back'])){
         unset($_SESSION['logId']);
-        pathTo('student_db');
-        
+        $_SESSION['status']='invalid';
+        pathTo('login');
     }
-    else{
-        echo"<script>alert('There's a problem in inserting data')</script>";
-    }
-}
-elseif(isset($_POST['back'])){
-    unset($_SESSION['logId']);
-    $_SESSION['status']='invalid';
-    pathTo('login');
-}
 }
 
 ?>
