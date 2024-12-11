@@ -53,11 +53,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
         }
         elseif($_POST['password']!=$_POST['confirm_password']&&!empty($_POST['email'])&&!empty($_POST['confirm_password']&&$_POST['password'])){
-            $input_error = "*Tanga magkaiba an password!!!";
+            $input_error = "* Magkaiba an password!!!";
         }   
         else{
             $_SESSION['status'] = 'invalid';
-            $input_error = "*Kupal fillupan mo intero!!!";
+            $input_error = "* Fillupan mo intero uy!";
         }
     }
     elseif(isset($_POST['login'])){

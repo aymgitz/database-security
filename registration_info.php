@@ -2,17 +2,24 @@
 require('./database.php');
 require('./registration_info_session.php');
 
+//filters
+function retouch_input($data){
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['submitz'])){
         $retainEmail = $_SESSION['logId'];
-
-        $firstname = $_POST['firstname'];
-        $middlename = $_POST['middlename'];
-        $lastname = $_POST['lastname'];
-        $birthdate = $_POST['birthdate'];
-        $address = $_POST['address'];
-        $gender = $_POST['gender'];
+        //finilter
+        $firstname = retouch_input($_POST['firstname']);
+        $middlename = retouch_input($_POST['middlename']);
+        $lastname = retouch_input($_POST['lastname']);
+        $birthdate = retouch_input($_POST['birthdate']);
+        $address = retouch_input($_POST['address']);
+        $gender = retouch_input($_POST['gender']);
     
         $queryValidate = "select id from accounts where email = '$retainEmail' ";
         $resultValidate = $connection->query($queryValidate);
@@ -24,10 +31,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $resultInsert = $connection->query($queryInsert);
 
         if($resultInsert){
-            echo"<script>alert('Updated successfully')</script>";
+            echo"<script>alert('Updated successfully, Please login!')</script>";
             unset($_SESSION['logId']);
-            pathTo('student_db');
-            
+            pathTo('login');
         }
         else{
             echo"<script>alert('There's a problem in inserting data')</script>";

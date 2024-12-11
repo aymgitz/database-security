@@ -124,6 +124,26 @@ else {
         .filter-buttons a:hover {
             background-color: #0056b3;
         }
+        .logout-container {
+            position: fixed;
+            top: 10px;
+            right: 30px;
+            z-index: 9999; /* Ensure the button stays on top */
+        }
+
+        #logout-btn {
+            padding: 10px 20px;
+            background-color: #f44336; /* You can change the color */
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #logout-btn:hover {
+            background-color: #d32f2f; /* Darker color on hover */
+        }
     </style>
 </head>
 
@@ -202,8 +222,10 @@ else {
             </tbody>
         </table>
     </div>
-    <form action="/rd-folder2/logout.php" method="post">
-        <input type="submit" name="logout" value="LOGOUT" />
-    </form>
+    <div class="logout-container">
+        <form action="/rd-folder2/logout.php" method="post">
+            <input id="logout-btn" type="submit" name="logout" value="LOGOUT" />
+        </form>
+    </div>
 </body>
 </html>

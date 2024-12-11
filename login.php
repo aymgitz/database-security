@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             pathTo('admin_db');
         }
         elseif(empty($email) || empty($password)) {
-            $input_error = "*All fields are required!";
+            $input_error = "*All fields are required, I'm not psychic!";
         } 
         else {
             // Prepare and execute query to get user by email
@@ -55,7 +55,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             $_SESSION['status'] = 'teacher_valid';
                             pathTo('teacher_db');
                         } else {
-                            $input_error = "*Invalid password!";
+                            $input_error = "*Isure an  password uy!";
                         }
                     }
                     elseif($row['status'] == 'approved'&& $row['role'] == 'student'){
@@ -80,7 +80,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             
 
                         } else {
-                            $input_error = "*Invalid password!";
+                            $input_error = "*Isure an  password uy!";
                         }
                     }
                     elseif($row['role']=='admin'&&$row['status']=='approved'){
@@ -90,7 +90,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         pathTo('admin_db');
                         }
                         else{
-                            $input_error = "mali an password";
+                            $input_error = "*You are not my master!";
                         }
                     }
                     elseif ($row['status'] == 'pending') {
